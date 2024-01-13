@@ -39,16 +39,28 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        return view('pages.dashboard');
+        $user = User::findOrFail($id);
+        return view('pages.user.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
-        return view('pages.dashboard');
+        $data = $request->all();
+        $user = User::findOrFail($id);
+
+        if ($request->input('password')) {
+            $data['password'] = Hash::make($request->input('password'));
+        } else {
+            $data['password'] = $user->password;
+        }
+        $user->update($data);
+        return redirect()->route('user.index');
     }
 
     public function destroy($id)
     {
-        return view('pages.dashboard');
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('user.index');
     }
 }
