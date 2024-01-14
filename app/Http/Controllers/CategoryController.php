@@ -24,9 +24,11 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
-        Category::create($data);
-        return redirect()->route('category.index');
+        $validate = $request->validate([
+            'name' => 'required|max:100'
+        ]);
+        Category::create($validate);
+        return redirect()->route('category.index')->with('success', 'Category successfully created');
     }
 
     public function show($id)
@@ -42,16 +44,18 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->all();
+        $validate = $request->validate([
+            'name' => 'required|max:100'
+        ]);
         $category = Category::findOrFail($id);
-        $category->update($data);
-        return redirect()->route('category.index');
+        $category->update($validate);
+        return redirect()->route('category.index')->with('success', 'Category successfully updated');
     }
 
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')->with('success', 'Category successfully deleted');
     }
 }
