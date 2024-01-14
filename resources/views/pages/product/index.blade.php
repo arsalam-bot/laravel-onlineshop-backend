@@ -47,6 +47,7 @@
                                             <th>Category</th>
                                             <th>Price</th>
                                             <th>Stock</th>
+                                            <th>Product Picture</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -57,6 +58,7 @@
                                                 <td>{{ $product->category->name }}</td>
                                                 <td>{{ $product->price }}</td>
                                                 <td>{{ $product->stock }}</td>
+                                                <td><img src="{{ url('storage/products/' . $product->image) }}" alt="product-image" width="100px"></td>
                                                 <td>{{ $product->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">

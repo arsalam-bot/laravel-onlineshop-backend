@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Category')
+@section('title', 'Edit Product')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -20,17 +20,17 @@
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                     <div class="breadcrumb-item"><a href="#">Forms</a></div>
-                    <div class="breadcrumb-item">Category</div>
+                    <div class="breadcrumb-item">Product</div>
                 </div>
             </div>
 
             <div class="section-body">
-                <h2 class="section-title">Category</h2>
+                <h2 class="section-title">Product</h2>
 
 
 
                 <div class="card">
-                    <form action="{{ route('category.update', $category) }}" method="POST">
+                    <form action="{{ route('product.update', $product) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-header">
@@ -43,7 +43,7 @@
                                     class="form-control @error('name')
                                 is-invalid
                             @enderror"
-                                    name="name" value="{{ $category->name }}">
+                                    name="name" value="{{ $product->name }}">
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -51,25 +51,54 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Description</label>
-                                <textarea type="text"
-                                    class="form-control @error('description')
+                                <label>Price</label>
+                                <input type="number"
+                                    class="form-control @error('price')
                                 is-invalid
                             @enderror"
-                                    name="description" value="{{ $category->description }}"></textarea>
-                                @error('description')
+                                    name="price" value="{{ $product->price }}">
+                                @error('price')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Image</label>
-                                <input type="file"
-                                    class="form-control @error('image')
+                                <label>Stock</label>
+                                <input type="number"
+                                    class="form-control @error('stock')
                                 is-invalid
                             @enderror"
-                                    name="image" value="{{ $category->image }}">
+                                    name="stock" value="{{ $product->stock }}">
+                                @error('stock')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select name="category_id" id="" class="form-control selectric @error('category_id') is-invalid @enderror">
+                                    <option value="">-- Select Category --</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Photo Product</label>
+                                <div class="col-sm-9">
+                                    <img src="{{ url('storage/products/' . $product->image) }}" alt="product-image" width="100px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>New Photo Product</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" name="image"
+                                        @error('image') is-invalid @enderror>
+                                </div>
                                 @error('image')
                                     <div class="invalid-feedback">
                                         {{ $message }}
